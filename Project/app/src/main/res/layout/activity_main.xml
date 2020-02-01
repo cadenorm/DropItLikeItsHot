@@ -21,8 +21,16 @@
         android:id="@+id/button"
         android:layout_width="154dp"
         android:layout_height="88dp"
+        android:layout_marginStart="128dp"
+        android:layout_marginLeft="128dp"
+        android:layout_marginTop="41dp"
+        android:layout_marginEnd="129dp"
+        android:layout_marginRight="129dp"
+        android:layout_marginBottom="224dp"
         android:text="Button"
-        tools:layout_editor_absoluteX="128dp"
-        tools:layout_editor_absoluteY="419dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/displayText" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
