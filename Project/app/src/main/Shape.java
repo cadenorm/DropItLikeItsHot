@@ -63,3 +63,261 @@ public class Shape {
         Shape retShape = new Shape(a,b,c,d,Piece.LL);
         return retShape;
     }
+
+    public void moveRight(){
+        Coordinate maxCoord = new Coordinate(0, 0);
+        maxCoord = this.getMaxCoordinate();
+
+        if (maxCoord.getX() < BOARD_WIDTH){
+            this.a.setX(this.a.getX() + 1);
+            this.b.setX(this.b.getX() + 1);
+            this.c.setX(this.c.getX() + 1);
+            this.d.setX(this.d.getX() + 1);
+        }
+    }
+
+    public void rotateLeft(){
+        switch (id.toString()){
+            case "S":
+                break;
+            case "T":   //rotate around c coordinate
+                if (rotatedCount == 0){
+                    this.a.setX(this.a.getX() + 1);
+                    this.a.setY(this.a.getY() - 1);
+                    this.b.setX(this.b.getX() + 1);
+                    this.b.setY(this.b.getY() + 1);
+                    this.d.setX(this.d.getX() - 1);
+                    this.d.setY(this.d.getY() - 1);
+                    rotatedCount ++;
+                }
+                else if (rotatedCount == 1){
+                    this.a.setX(this.a.getX() - 1);
+                    this.a.setY(this.a.getY() - 1);
+                    this.b.setX(this.b.getX() + 1);
+                    this.b.setY(this.b.getY() - 1);
+                    this.d.setX(this.d.getX() - 1);
+                    this.d.setY(this.d.getY() + 1);
+                    rotatedCount ++;
+                }
+                else if (rotatedCount == 2){
+                    this.a.setX(this.a.getX() - 1);
+                    this.a.setY(this.a.getY() + 1);
+                    this.b.setX(this.b.getX() - 1);
+                    this.b.setY(this.b.getY() - 1);
+                    this.d.setX(this.d.getX() + 1);
+                    this.d.setY(this.d.getY() + 1);
+                    rotatedCount ++;
+                }
+                else if (rotatedCount == 3){
+                    this.a.setX(this.a.getX() + 1);
+                    this.a.setY(this.a.getY() + 1);
+                    this.b.setX(this.b.getX() - 1);
+                    this.b.setY(this.b.getY() + 1);
+                    this.d.setX(this.d.getX() + 1);
+                    this.d.setY(this.d.getY() - 1);
+                    rotatedCount = 0;
+                }
+                break;
+            case "LL":   //rotate around b coordinate
+                if (rotatedCount == 0){
+                    this.a.setX(this.a.getX() + 1);
+                    this.a.setY(this.a.getY() - 1);
+                    this.c.setX(this.c.getX() - 1);
+                    this.c.setY(this.c.getY() + 1);
+                    this.d.setX(this.d.getX() + 0);
+                    this.d.setY(this.d.getY() + 2);
+                    rotatedCount ++;
+                }
+                else if (rotatedCount == 1){
+                    this.a.setX(this.a.getX() - 1);
+                    this.a.setY(this.a.getY() - 1);
+                    this.c.setX(this.c.getX() + 1);
+                    this.c.setY(this.c.getY() + 1);
+                    this.d.setX(this.d.getX() + 2);
+                    this.d.setY(this.d.getY() + 0);
+                    rotatedCount ++;
+                }
+                else if (rotatedCount == 2){
+                    this.a.setX(this.a.getX() - 1);
+                    this.a.setY(this.a.getY() + 1);
+                    this.c.setX(this.c.getX() + 1);
+                    this.c.setY(this.c.getY() - 1);
+                    this.d.setX(this.d.getX() + 0);
+                    this.d.setY(this.d.getY() - 2);
+                    rotatedCount ++;
+                }
+                else if (rotatedCount == 3){
+                    this.a.setX(this.a.getX() + 1);
+                    this.a.setY(this.a.getY() + 1);
+                    this.c.setX(this.c.getX() - 1);
+                    this.c.setY(this.c.getY() - 1);
+                    this.d.setX(this.d.getX() - 2);
+                    this.d.setY(this.d.getY() + 0);
+                    rotatedCount = 0;
+                }
+                break;
+            case "Z":   //rotate around c coordinate
+                if (rotatedCount == 0){
+                    this.a.setX(this.a.getX() + 0);
+                    this.a.setY(this.a.getY() + 2);
+                    this.b.setX(this.b.getX() - 1);
+                    this.b.setY(this.b.getY() + 1);
+                    this.d.setX(this.d.getX() - 1);
+                    this.d.setY(this.d.getY() - 1);
+                    rotatedCount ++;
+                }
+                else if (rotatedCount == 1){
+                    this.a.setX(this.a.getX() + 2);
+                    this.a.setY(this.a.getY() + 0);
+                    this.b.setX(this.b.getX() + 1);
+                    this.b.setY(this.b.getY() + 1);
+                    this.d.setX(this.d.getX() - 1);
+                    this.d.setY(this.d.getY() + 1);
+                    rotatedCount ++;
+                }
+                else if (rotatedCount == 2){
+                    this.a.setX(this.a.getX() + 0);
+                    this.a.setY(this.a.getY() - 2);
+                    this.b.setX(this.b.getX() + 1);
+                    this.b.setY(this.b.getY() - 1);
+                    this.d.setX(this.d.getX() + 1);
+                    this.d.setY(this.d.getY() + 1);
+                    rotatedCount ++;
+                }
+                else if (rotatedCount == 3){
+                    this.a.setX(this.a.getX() - 2);
+                    this.a.setY(this.a.getY() + 0);
+                    this.b.setX(this.b.getX() - 1);
+                    this.b.setY(this.b.getY() - 1);
+                    this.d.setX(this.d.getX() + 1);
+                    this.d.setY(this.d.getY() - 1);
+                    rotatedCount = 0;
+                }
+                break;
+            case "L":   //rotate around b coordinate
+                if (rotatedCount == 0){
+                    this.a.setX(this.a.getX() + 1);
+                    this.a.setY(this.a.getY() - 1);
+                    this.c.setX(this.c.getX() - 1);
+                    this.c.setY(this.c.getY() + 1);
+                    this.d.setX(this.d.getX() - 2);
+                    this.d.setY(this.d.getY() + 0);
+                    rotatedCount ++;
+                }
+                else if (rotatedCount == 1){
+                    this.a.setX(this.a.getX() - 1);
+                    this.a.setY(this.a.getY() - 1);
+                    this.c.setX(this.c.getX() + 1);
+                    this.c.setY(this.c.getY() + 1);
+                    this.d.setX(this.d.getX() + 0);
+                    this.d.setY(this.d.getY() + 2);
+                    rotatedCount ++;
+                }
+                else if (rotatedCount == 2){
+                    this.a.setX(this.a.getX() - 1);
+                    this.a.setY(this.a.getY() + 1);
+                    this.c.setX(this.c.getX() + 1);
+                    this.c.setY(this.c.getY() - 1);
+                    this.d.setX(this.d.getX() + 2);
+                    this.d.setY(this.d.getY() + 0);
+                    rotatedCount ++;
+                }
+                else if (rotatedCount == 3){
+                    this.a.setX(this.a.getX() + 1);
+                    this.a.setY(this.a.getY() + 1);
+                    this.c.setX(this.c.getX() - 1);
+                    this.c.setY(this.c.getY() - 1);
+                    this.d.setX(this.d.getX() + 0);
+                    this.d.setY(this.d.getY() - 2);
+                    rotatedCount = 0;
+                }
+                break;
+            default: break;
+        }
+
+    }
+
+    public void moveLeft(){
+        Coordinate minCoord = new Coordinate(0, 0);
+        minCoord = this.getMinCoordinate();
+
+        if (minCoord.getX() > 1){
+            this.a.setX(this.a.getX() - 1);
+            this.b.setX(this.b.getX() - 1);
+            this.c.setX(this.c.getX() - 1);
+            this.d.setX(this.d.getX() - 1);
+        }
+    }
+
+    public Coordinate getMaxCoordinate(){
+        Coordinate result = new Coordinate(0, 0);
+        if (this.a.getX() > this.b.getX())
+                if (this.a.getX() > this.c.getX())
+                    if (this.a.getX() > this.d.getX())
+                        result.setX(this.a.getX());
+                    else result.setX(this.d.getX());
+                else if (this.c.getX() > this.d.getX())
+                        result.setX(this.c.getX());
+                    else result.setX(this.d.getX());
+        else if (this.b.getX() > this.c.getX())
+                if (this.b.getX() > this.d.getX())
+                    result.setX(this.b.getX());
+                else result.setX(this.d.getX());
+             else if (this.c.getX() > this.d.getX())
+                     result.setX(this.c.getX());
+                    else result.setX(this.d.getX());
+
+        if (this.a.getY() > this.b.getY())
+                if (this.a.getY() > this.c.getY())
+                if (this.a.getY() > this.d.getY())
+                result.setY(this.a.getY());
+                    else result.setY(this.d.getY());
+                else if (this.c.getY() > this.d.getY())
+                        result.setY(this.c.getY());
+                    else result.setY(this.d.getY());
+        else if (this.b.getY() > this.c.getY())
+                if (this.b.getY() > this.d.getY())
+                result.setY(this.b.getY());
+                else result.setY(this.d.getY());
+             else if (this.c.getY() > this.d.getY())
+                     result.setY(this.c.getY());
+                    else result.setY(this.d.getY());
+        return result;
+    }
+
+    Coordinate getMinCoordinate(){
+        Coordinate result = new Coordinate(0, 0);
+        if (this.a.getX() < this.b.getX())
+        if (this.a.getX() < this.c.getX())
+        if (this.a.getX() < this.d.getX())
+        result.setX(this.a.getX());
+                    else result.setX(this.d.getX());
+                else if (this.c.getX() < this.d.getX())
+        result.setX(this.c.getX());
+                    else result.setX(this.d.getX());
+        else if (this.b.getX() < this.c.getX())
+        if (this.b.getX() < this.d.getX())
+        result.setX(this.b.getX());
+                else result.setX(this.d.getX());
+             else if (this.c.getX() < this.d.getX())
+        result.setX(this.c.getX());
+                    else result.setX(this.d.getX());
+
+        if (this.a.getY() < this.b.getY())
+        if (this.a.getY() < this.c.getY())
+        if (this.a.getY() < this.d.getY())
+        result.setY(this.a.getY());
+                    else result.setY(this.d.getY());
+                else if (this.c.getY() < this.d.getY())
+        result.setY(this.c.getY());
+                    else result.setY(this.d.getY());
+        else if (this.b.getY() < this.c.getY())
+        if (this.b.getY() < this.d.getY())
+        result.setY(this.b.getY());
+                else result.setY(this.d.getY());
+             else if (this.c.getY() < this.d.getY())
+        result.setY(this.c.getY());
+                    else result.setY(this.d.getY());
+        return result;
+    }
+}
