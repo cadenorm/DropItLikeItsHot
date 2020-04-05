@@ -16,9 +16,9 @@ import java.util.TimerTask;
 
 public class MainActivity extends AppCompatActivity {
 
-    static boolean blockInMotion = false;
+    public static boolean blockInMotion = false;
     public static int[][] gridFill = new int[7][9];
-    Piece blockType;
+    public static Piece blockType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
