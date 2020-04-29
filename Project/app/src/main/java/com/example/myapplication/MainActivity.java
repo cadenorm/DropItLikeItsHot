@@ -19,6 +19,8 @@ public class MainActivity extends AppCompatActivity {
     public static boolean blockInMotion = false;
     public static int[][] gridFill = new int[7][9];
     public static Piece blockType;
+    public static boolean gameOver;
+    public TextView txt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
                         moveBlockRight();
                     }
                 });
+
                 runGame();
             }
         });
@@ -57,7 +60,19 @@ public class MainActivity extends AppCompatActivity {
         final Timer timer = new Timer();
         TimerTask nextStep = new TimerTask() {
             @Override
-            public void run() {
+            public void run(){
+                if(gridFill[3][8] == 2 || gridFill[3][7] == 2 || gridFill[3][6] == 2 || gridFill[3][5] == 2){
+                    endGame(true);
+                }
+                if(gameOver){
+                    timer.cancel();
+                    txt = findViewById(R.id.textView3);
+                    txt.post(new Runnable(){
+                        public void run(){
+                            txt.setText("GameOver");
+                        }
+                    });
+                }
                 if(blockInMotion){
                     moveBlockDown();
                 }
@@ -67,14 +82,33 @@ public class MainActivity extends AppCompatActivity {
             }
         };
         timer.scheduleAtFixedRate(nextStep, 1000, 2000);
+
     }
 
     void createRandomBlock(){
         createJBlock();
     }
 
-    void endGame(){
-        setContentView(R.layout.activity_main);
+    int getHighScore(int playerID){
+        playerID = playerID % 6;
+        switch (playerID){
+            case 0:
+                return 100;
+            case 1:
+                return 150;
+            case 2:
+                return 575;
+            case 3:
+                return 410;
+            case 4:
+                return 90;
+            default:
+                return 115;
+        }
+    }
+
+    void endGame(boolean end){
+        gameOver = end;
     }
 
     void createJBlock(){
