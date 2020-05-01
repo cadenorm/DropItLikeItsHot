@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.graphics.Color;
 import android.graphics.ColorFilter;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -11,6 +12,10 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.net.Socket;
+import java.net.UnknownHostException;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.net.Socket;
@@ -22,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
     public static Piece blockType;
     public static boolean gameOver;
     public TextView txt;
+    public String message;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,24 +98,32 @@ public class MainActivity extends AppCompatActivity {
 
     int getHighScore(int playerID){
         playerID = playerID % 6;
+        int highScore = 0;
         switch (playerID){
             case 0:
-                return 100;
+                highScore = 100;
             case 1:
-                return 150;
+                highScore = 150;
             case 2:
-                return 575;
+                highScore = 575;
             case 3:
-                return 410;
+                highScore = 410;
             case 4:
-                return 90;
+                highScore = 90;
             default:
-                return 115;
+                highScore = 115;
         }
+        send sendMsg = new send();
+        message = String.valueOf(highScore);
+        sendMsg.execute();
+        return highScore;
     }
 
     void endGame(boolean end){
         gameOver = end;
+        send sendMsg = new send();
+        message = "Game Over!!";
+        sendMsg.execute();
     }
 
     void createJBlock(){
@@ -351,4 +365,28 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    // WEB SERVICE //
+    //sends data to python server
+    class send extends AsyncTask<Void,Void,Void> {
+        Socket webService;
+        PrintWriter pw;
+        @Override
+        protected Void doInBackground(Void...params){
+            try {
+                webService = new Socket("208.180.239.26",8000); //IP address should be for your machine and should match python server
+                pw = new PrintWriter(webService.getOutputStream());
+                pw.write(message);
+                pw.flush();
+                pw.close();
+                webService.close();
+            } catch (UnknownHostException e) {
+                System.out.println("Fail");
+                e.printStackTrace();
+            } catch (IOException e) {
+                System.out.println("Fail");
+                e.printStackTrace();
+            }
+            return null;
+        }
+    }
 }
