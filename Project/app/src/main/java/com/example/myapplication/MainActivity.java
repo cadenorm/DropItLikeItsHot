@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import java.util.Timer;
 import java.util.TimerTask;
+import java.net.Socket;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -112,6 +113,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     void createJBlock(){
+        String ip = "localhost";
+        int port = 55555;
+        try{
+            Socket s = new Socket(ip, port);
+        }catch (Exception e){
+            ;
+        }
+
         ImageView img = findViewById(R.id.b49);
         img.setColorFilter(Color.argb(255, 0, 255, 255));
         gridFill[3][8] = 1;
