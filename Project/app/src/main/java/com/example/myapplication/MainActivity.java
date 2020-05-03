@@ -12,13 +12,15 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.net.Socket;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -63,7 +65,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     void runGame(){
-
         final Timer timer = new Timer();
         TimerTask nextStep = new TimerTask() {
             @Override
@@ -97,44 +98,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
     int getHighScore(int playerID){
-        playerID = playerID % 6;
         int highScore = 0;
-        switch (playerID){
-            case 0:
-                highScore = 100;
-            case 1:
-                highScore = 150;
-            case 2:
-                highScore = 575;
-            case 3:
-                highScore = 410;
-            case 4:
-                highScore = 90;
-            default:
-                highScore = 115;
-        }
-        send sendMsg = new send();
-        message = String.valueOf(highScore);
-        sendMsg.execute();
+        message = getServerMessage("highScore_" + playerID);
+        highScore = Integer.parseInt(message);
         return highScore;
     }
 
     void endGame(boolean end){
-        gameOver = end;
-        send sendMsg = new send();
-        message = "Game Over!!";
-        sendMsg.execute();
+        message = getServerMessage("endGame");
+        gameOver = Boolean.parseBoolean(message);
     }
 
     void createJBlock(){
-        String ip = "localhost";
-        int port = 55555;
-        try{
-            Socket s = new Socket(ip, port);
-        }catch (Exception e){
-            ;
-        }
-
         ImageView img = findViewById(R.id.b49);
         img.setColorFilter(Color.argb(255, 0, 255, 255));
         gridFill[3][8] = 1;
@@ -366,27 +341,23 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // WEB SERVICE //
-    //sends data to python server
-    class send extends AsyncTask<Void,Void,Void> {
-        Socket webService;
-        PrintWriter pw;
-        @Override
-        protected Void doInBackground(Void...params){
-            try {
-                webService = new Socket("208.180.239.26",8000); //IP address should be for your machine and should match python server
-                pw = new PrintWriter(webService.getOutputStream());
-                pw.write(message);
-                pw.flush();
-                pw.close();
-                webService.close();
-            } catch (UnknownHostException e) {
-                System.out.println("Fail");
-                e.printStackTrace();
-            } catch (IOException e) {
-                System.out.println("Fail");
-                e.printStackTrace();
-            }
+    //sends data to java socket server
+    String getServerMessage(String sendMsg){
+        String ip = "localhost";
+        int port = 55555;
+        try{
+            Socket s = new Socket(ip, port);
+            OutputStreamWriter writer = new OutputStreamWriter(s.getOutputStream());
+            PrintWriter output = new PrintWriter(writer);
+            output.write(sendMsg);
+            writer.flush();
+
+            BufferedReader reader = new BufferedReader(new InputStreamReader(s.getInputStream()));
+            String str = reader.readLine();
+            return str;
+        }catch (Exception e){
             return null;
         }
     }
+
 }
